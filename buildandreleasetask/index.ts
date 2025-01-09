@@ -4,7 +4,7 @@ import CommandFactory from "./entities/factories/CommandFactory";
 
 async function run(): Promise<void> {
     try {
-        const inputString: string | undefined = tl.getInput('command', true);
+        let inputString: string | undefined = tl.getInput('command', true);
         
         // Verify that we have an input-string
         if (inputString === undefined) {
@@ -12,6 +12,8 @@ async function run(): Promise<void> {
             return;
         }
 
+        inputString = inputString.toLowerCase();
+        
         const commandFunction = CommandFactory(inputString);
 
         // Verify that we successfully got a function in return

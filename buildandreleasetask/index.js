@@ -30,16 +30,20 @@ const tl = __importStar(require("azure-pipelines-task-lib/task"));
 const CommandFactory_1 = __importDefault(require("./entities/factories/CommandFactory"));
 async function run() {
     try {
-        const inputString = tl.getInput('command', true);
+        let inputString = tl.getInput('command', true);
+        // Verify that we have an input-string
         if (inputString === undefined) {
             console.error("Input string is undefined");
             return;
         }
+        inputString = inputString.toLowerCase();
         const commandFunction = (0, CommandFactory_1.default)(inputString);
+        // Verify that we successfully got a function in return
         if (typeof commandFunction !== 'function') {
             console.error("CommandFactory did not return a function");
             return;
         }
+        // Invoke the function command
         commandFunction();
     }
     catch (err) {

@@ -21,7 +21,7 @@ function CommandFactory(command) {
         case "dotnetversiontest":
             return DotnetVersionTest_1.default;
         default:
-            throw new Error("Command doesnt exist..");
+            throw new Error(`Command: ${command}, doesnt exist..`);
     }
 }
 exports.default = CommandFactory;

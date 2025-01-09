@@ -9,7 +9,7 @@
     "author": "Max Klevebrand",
     "version": {
         "Major": 1,
-        "Minor": 1,
+        "Minor": 6,
         "Patch": 0
     },
     "instanceNameFormat": "Echo $(command)",
@@ -27,21 +27,12 @@
             "label": "Command",
             "required": true,
             "options": {
-                "Install": "install",
-                "Init": "init",
-                "Generate": "generate",
-                "Build": "build"
+                "install": "install",
+                "init": "init",
+                "generate": "generate",
+                "build": "build"
             },
             "helpMarkDown": "Select the command to execute (e.g., 'Generate' or 'Build')."
-        },
-        {
-            "name": "outputFormat",
-            "type": "string",
-            "label": "Output Format",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Specify the output format (e.g., 'compose' or 'kubernetes').",
-            "groupName": "Advanced"
         },
         {
             "name": "containerRegistry",
@@ -59,7 +50,53 @@
             "defaultValue": "",
             "required": false,
             "helpMarkDown": "Specify the repository prefix.",
-            "groupName": "Advanced"
+            "visibleRule": "command == init"
+        },
+        {
+            "name": "nonInteractive",
+            "type": "boolean",
+            "label": "Non interactive",
+            "defaultValue": "true",
+            "required": true,
+            "helpMarkDown": "Enable/disable the interactive mode, default is true for pipelines.",
+            "visibleRule": "command == generate || command == build || command == init"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "string",
+            "label": "Working Directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The working directory of the AppHost project.",
+            "visibleRule": "command == generate || command == build"
+        },
+        {
+            "name": "includeDashboard",
+            "type": "boolean",
+            "label": "Include Dashboard",
+            "defaultValue": "true",
+            "required": true,
+            "helpMarkDown": "Enable/disable aspire dashboard, default is true for pipelines.",
+            "visibleRule": "command == generate || command == build"
+        },
+        {
+            "name": "disableSecrets",
+            "type": "boolean",
+            "label": "Disable Secrets",
+            "defaultValue": "true",
+            "required": true,
+            "helpMarkDown": "Enable/disable secrets, default is true for pipelines.",
+            "visibleRule": "command == generate || command == build"
+        },
+        {
+            "name": "outputFormat",
+            "type": "string",
+            "label": "Output Format",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Specify the output format (e.g., 'compose' or 'kubernetes').",
+            "groupName": "Advanced",
+            "visibleRule": "command == generate"
         }
     ],
     "execution": {
