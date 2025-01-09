@@ -1,0 +1,70 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "df19984f-ec46-4618-9ccd-19a504e9be2e",
+    "name": "Aspir8",
+    "friendlyName": "Aspir8 build/release tools",
+    "description": "Aspir8 build/release tools",
+    "helpMarkDown": "Aspir8 build/release tools",
+    "category": "Utility",
+    "author": "Max Klevebrand",
+    "version": {
+        "Major": 0,
+        "Minor": 4,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Echo $(command)",
+    "groups": [
+        {
+            "name": "Advanced",
+            "displayName": "Advanced Options",
+            "isExpanded": false
+        }
+    ],
+    "inputs": [
+        {
+            "name": "command",
+            "type": "pickList",
+            "label": "Command",
+            "required": true,
+            "options": {
+                "Install": "install",
+                "Init": "init",
+                "Generate": "generate",
+                "Build": "build"
+            },
+            "helpMarkDown": "Select the command to execute (e.g., 'Generate' or 'Build')."
+        },
+        {
+            "name": "outputFormat",
+            "type": "string",
+            "label": "Output Format",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Specify the output format (e.g., 'compose' or 'kubernetes').",
+            "groupName": "Advanced"
+        },
+        {
+            "name": "containerRegistry",
+            "type": "string",
+            "label": "Container registry",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Specify your container registry to publish the generated images to.",
+            "visibleRule": "command == init"
+        },
+        {
+            "name": "containerRepositoryPrefix",
+            "type": "string",
+            "label": "Container repository prefix",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Specify the repository prefix.",
+            "groupName": "Advanced"
+        }
+    ],
+    "execution": {
+        "Node20_1": {
+            "target": "index.js"
+        }
+    }
+}
