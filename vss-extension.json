@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "build-release-task",
     "name": "Aspir8 build and release tools",
-    "version": "0.0.4",
+    "version": "0.0.8",
     "publisher": "klevebrand-industries",
     "targets": [
         {

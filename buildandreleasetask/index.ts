@@ -1,17 +1,31 @@
-import tl = require('azure-pipelines-task-lib/task');
+"use strict";
+import * as tl from "azure-pipelines-task-lib/task";
+import CommandFactory from "./entities/factories/CommandFactory";
 
- async function run() {
-     try {
-         const inputString: string | undefined = tl.getInput('samplestring', true);
-         if (inputString == 'bad') {
-             tl.setResult(tl.TaskResult.Failed, 'Bad input was given');
-             return;
-         }
-         console.log('Hello', inputString);
-     }
-     catch (err:any) {
-         tl.setResult(tl.TaskResult.Failed, err.message);
-     }
- }
+async function run(): Promise<void> {
+    try {
+        const inputString: string | undefined = tl.getInput('command', true);
+        
+        // Verify that we have an input-string
+        if (inputString === undefined) {
+            console.error("Input string is undefined");
+            return;
+        }
 
- run();
+        const commandFunction = CommandFactory(inputString);
+
+        // Verify that we successfully got a function in return
+        if (typeof commandFunction !== 'function') {
+            console.error("CommandFactory did not return a function");
+            return;
+        }
+
+        // Invoke the function command
+        commandFunction();
+    }
+    catch (err) {
+        tl.setResult(tl.TaskResult.Failed, (err as Error).message);
+    }
+}
+
+run();
