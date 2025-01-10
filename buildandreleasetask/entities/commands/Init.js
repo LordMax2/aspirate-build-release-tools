@@ -30,7 +30,7 @@ function Init() {
     const inputContainerRegistry = tl.getInput('containerRegistry', false);
     const inputContainerRepositoryPrefix = tl.getInput('containerRepositoryPrefix', false);
     const inputDisableSecrets = tl.getInput('disableSecrets', true);
-    const inputWorkingDirectory = tl.getInput('workingDirectory', true);
+    const inputWorkingDirectory = tl.getInput('workingDirectory', false);
     if (inputDisableSecrets === undefined)
         throw new Error("includeDasboard is missing...");
     let command = "aspirate init --non-interactive";

@@ -7,7 +7,7 @@ function Init() {
     const inputContainerRegistry: string | undefined = tl.getInput('containerRegistry', false);
     const inputContainerRepositoryPrefix: string | undefined = tl.getInput('containerRepositoryPrefix', false);
     const inputDisableSecrets: string | undefined = tl.getInput('disableSecrets', true);
-    const inputWorkingDirectory: string | undefined = tl.getInput('workingDirectory', true);
+    const inputWorkingDirectory: string | undefined = tl.getInput('workingDirectory', false);
     
     if(inputDisableSecrets === undefined) throw new Error("includeDasboard is missing...");
 

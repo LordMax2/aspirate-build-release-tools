@@ -9,7 +9,7 @@
     "author": "Max Klevebrand",
     "version": {
         "Major": 1,
-        "Minor": 6,
+        "Minor": 9,
         "Patch": 0
     },
     "instanceNameFormat": "Echo $(command)",

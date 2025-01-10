@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "build-release-task",
     "name": "Aspire build and release tools with Aspir8/aspirate",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "publisher": "klevebrand-industries",
     "targets": [
         {
