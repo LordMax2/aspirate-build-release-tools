@@ -2,8 +2,9 @@
     "manifestVersion": 1,
     "id": "build-release-task",
     "name": "Aspire build and release tools with Aspir8/aspirate",
-    "version": "0.1.9",
+    "version": "0.1.0",
     "publisher": "klevebrand-industries",
+    "public": true,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -32,5 +33,10 @@
                 "name": "buildandreleasetask"
             }
         }
-    ]
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    }
 }
