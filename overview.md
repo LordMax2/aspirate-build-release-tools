@@ -1,4 +1,4 @@
-# Aspire Build and Release Tools Overview
+# Aspire build and release tools overview
 
 This package includes a build and release task for Azure DevOps Pipelines, specifically designed for .NET Aspire projects.
 
