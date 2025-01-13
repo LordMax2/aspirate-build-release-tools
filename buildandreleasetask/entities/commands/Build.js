@@ -22,20 +22,43 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const tl = __importStar(require("azure-pipelines-task-lib/task"));
 const child_process_1 = require("child_process");
+const DisableSecrets_1 = __importDefault(require("../flags/DisableSecrets"));
+const LaunchProfile_1 = __importDefault(require("../flags/LaunchProfile"));
+const ProjectPath_1 = __importDefault(require("../flags/ProjectPath"));
+const AspireManifest_1 = __importDefault(require("../flags/AspireManifest"));
+const ContainerImageTag_1 = __importDefault(require("../flags/ContainerImageTag"));
+const ContainerRegistry_1 = __importDefault(require("../flags/ContainerRegistry"));
+const ContainerRepositoryPrefix_1 = __importDefault(require("../flags/ContainerRepositoryPrefix"));
+const ContainerBuilder_1 = __importDefault(require("../flags/ContainerBuilder"));
+const RuntimeIdentifer_1 = __importDefault(require("../flags/RuntimeIdentifer"));
+const ComposeBuild_1 = __importDefault(require("../flags/ComposeBuild"));
+const commandFlags = [
+    new AspireManifest_1.default(),
+    new DisableSecrets_1.default(),
+    new LaunchProfile_1.default(),
+    new ProjectPath_1.default(),
+    new ContainerImageTag_1.default(),
+    new ContainerRegistry_1.default(),
+    new ContainerRepositoryPrefix_1.default(),
+    new ContainerBuilder_1.default(),
+    new RuntimeIdentifer_1.default(),
+    new ComposeBuild_1.default()
+];
 function Build() {
     console.log('Building Aspir8 manifest');
-    const inputDisableSecrets = tl.getInput('disableSecrets', true);
-    const inputWorkingDirectory = tl.getInput('workingDirectory', false);
-    if (inputDisableSecrets === undefined)
-        throw new Error("disableSecrets is missing...");
     let command = `aspirate build --non-interactive`;
-    if (inputDisableSecrets === "true") {
-        command += " --disable-secrets";
-    }
-    (0, child_process_1.exec)(command, { cwd: inputWorkingDirectory }, (error, stdout, stderr) => {
+    commandFlags.forEach(flag => {
+        command += `${flag.getCommandLineArgument()}`;
+    });
+    console.log(command);
+    const workingDirectory = tl.getInput('workingDirectory', false);
+    (0, child_process_1.exec)(command, { cwd: workingDirectory }, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
             return;

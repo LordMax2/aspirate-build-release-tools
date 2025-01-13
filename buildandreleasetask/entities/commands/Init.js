@@ -22,28 +22,36 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const tl = __importStar(require("azure-pipelines-task-lib/task"));
 const child_process_1 = require("child_process");
+const DisableSecrets_1 = __importDefault(require("../flags/DisableSecrets"));
+const ProjectPath_1 = __importDefault(require("../flags/ProjectPath"));
+const ContainerImageTag_1 = __importDefault(require("../flags/ContainerImageTag"));
+const ContainerRegistry_1 = __importDefault(require("../flags/ContainerRegistry"));
+const ContainerRepositoryPrefix_1 = __importDefault(require("../flags/ContainerRepositoryPrefix"));
+const ContainerBuilder_1 = __importDefault(require("../flags/ContainerBuilder"));
+const TemplatePath_1 = __importDefault(require("../flags/TemplatePath"));
+const commandFlags = [
+    new ProjectPath_1.default(),
+    new ContainerBuilder_1.default(),
+    new ContainerRegistry_1.default(),
+    new ContainerRepositoryPrefix_1.default(),
+    new ContainerImageTag_1.default(),
+    new TemplatePath_1.default(),
+    new DisableSecrets_1.default()
+];
 function Init() {
     console.log('Initializing Aspir8');
-    const inputContainerRegistry = tl.getInput('containerRegistry', false);
-    const inputContainerRepositoryPrefix = tl.getInput('containerRepositoryPrefix', false);
-    const inputDisableSecrets = tl.getInput('disableSecrets', true);
-    const inputWorkingDirectory = tl.getInput('workingDirectory', false);
-    if (inputDisableSecrets === undefined)
-        throw new Error("includeDasboard is missing...");
     let command = "aspirate init --non-interactive";
-    if (inputDisableSecrets === "true") {
-        command += " --disable-secrets";
-    }
-    if (inputContainerRegistry && inputContainerRegistry !== "") {
-        command += ` --container-registry ${inputContainerRegistry}`;
-    }
-    if (inputContainerRepositoryPrefix && inputContainerRepositoryPrefix !== "") {
-        command += ` --container-repository-prefix ${inputContainerRepositoryPrefix}`;
-    }
-    (0, child_process_1.exec)(command, { cwd: inputWorkingDirectory }, (error, stdout, stderr) => {
+    commandFlags.forEach(flag => {
+        command += `${flag.getCommandLineArgument()}`;
+    });
+    const workingDirectory = tl.getInput('workingDirectory', false);
+    (0, child_process_1.exec)(command, { cwd: workingDirectory }, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
             return;

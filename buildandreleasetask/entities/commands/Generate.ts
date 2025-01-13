@@ -1,33 +1,72 @@
 import * as tl from "azure-pipelines-task-lib/task";
 import { exec } from 'child_process';
+import DisableSecrets from '../flags/DisableSecrets'
+import CommandFlagBase from "../flags/CommandFlagBase";
+import LaunchProfile from "../flags/LaunchProfile";
+import ProjectPath from "../flags/ProjectPath";
+import AspireManifest from "../flags/AspireManifest";
+import ContainerImageTag from "../flags/ContainerImageTag";
+import ContainerRegistry from "../flags/ContainerRegistry";
+import ContainerRepositoryPrefix from "../flags/ContainerRepositoryPrefix";
+import ContainerBuilder from "../flags/ContainerBuilder";
+import RuntimeIdentifier from "../flags/RuntimeIdentifer";
+import ComposeBuild from "../flags/ComposeBuild";
+import OutputPath from "../flags/OutputPath";
+import SkipBuild from "../flags/SkipBuild";
+import DisableState from "../flags/DisableState";
+import Namespace from "../flags/Namespace";
+import SkipFinal from "../flags/SkipFinal";
+import ImagePullPolicy from "../flags/ImagePullPolicy";
+import OutputFormat from "../flags/OutputFormat";
+import SecretPassword from "../flags/SecretPassword";
+import PrivateRegistry from "../flags/PrivateRegistry";
+import PrivateRegistryUrl from "../flags/PrivateRegistryUrl";
+import PrivateRegistryUsername from "../flags/PrivateRegistryUsername";
+import PrivateRegistryPassword from "../flags/PrivateRegistryPassword";
+import PrivateRegistryEmail from "../flags/PrivateRegistryEmail";
+import IncludeDashboard from "../flags/IncludeDashboard";
+
+const commandFlags: CommandFlagBase[] = [
+    new ProjectPath(),
+    new AspireManifest(),
+    new OutputPath(),
+    new SkipBuild(),
+    new DisableState(),
+    new Namespace(),
+    new SkipFinal(),
+    new ContainerImageTag(),
+    new ContainerRegistry(),
+    new ContainerRepositoryPrefix(),
+    new ContainerBuilder(),
+    new ImagePullPolicy(),
+    new DisableSecrets(),
+    new OutputFormat(),
+    new RuntimeIdentifier(),
+    new SecretPassword(),
+    new PrivateRegistry(),
+    new PrivateRegistryUrl(),
+    new PrivateRegistryUsername(),
+    new PrivateRegistryPassword(),
+    new PrivateRegistryEmail(),
+    new IncludeDashboard(),
+    new ComposeBuild(),
+    new LaunchProfile()
+]
 
 function Generate() {
     console.log('Generating Aspir8 manifest');
-    
-    const inputOutputFormat: string | undefined = tl.getInput('outputFormat', true);
-    const inputDisableSecrets: string | undefined = tl.getInput('disableSecrets', true);
-    const inputIncludeDashboard: string | undefined = tl.getInput('includeDashboard', true);
-    const inputWorkingDirectory: string | undefined = tl.getInput('workingDirectory', false);
-    
-    if(inputOutputFormat === undefined) throw new Error("outputFormat is missing...");
-    if(inputDisableSecrets === undefined) throw new Error("disableSecrets is missing...");
-    if(inputIncludeDashboard === undefined) throw new Error("includeDashboard is missing...");
 
     let command: string = `aspirate generate --non-interactive`;
 
-    if(inputOutputFormat !== "") {
-        command += ` --output-format ${inputOutputFormat}`;
-    } 
+    commandFlags.forEach(flag => {
+        command += `${flag.getCommandLineArgument()}`; 
+    });
 
-    if(inputDisableSecrets === "true") {
-        command += " --disable-secrets";
-    } 
-
-    if(inputIncludeDashboard === "true") {
-        command += " --include-dashboard";
-    } 
-
-    exec(command, { cwd: inputWorkingDirectory}, (error: Error | null, stdout: string, stderr: string) => {
+    console.log(command);
+    
+    const workingDirectory: string | undefined = tl.getInput('workingDirectory', false);
+     
+    exec(command, { cwd: workingDirectory}, (error: Error | null, stdout: string, stderr: string) => {
         if (error) {
             console.error(`exec error: ${error}`);
             return;
