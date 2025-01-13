@@ -26,7 +26,7 @@ import PrivateRegistryPassword from "../flags/PrivateRegistryPassword";
 import PrivateRegistryEmail from "../flags/PrivateRegistryEmail";
 import IncludeDashboard from "../flags/IncludeDashboard";
 
-const commandFlags: CommandFlagBase[] = [
+const commandFlags: Set<CommandFlagBase> = new Set<CommandFlagBase>([
     new ProjectPath(),
     new AspireManifest(),
     new OutputPath(),
@@ -51,7 +51,7 @@ const commandFlags: CommandFlagBase[] = [
     new IncludeDashboard(),
     new ComposeBuild(),
     new LaunchProfile()
-]
+]);
 
 function Generate() {
     console.log('Generating Aspir8 manifest');

@@ -9,7 +9,7 @@ import ContainerRepositoryPrefix from "../flags/ContainerRepositoryPrefix";
 import ContainerBuilder from "../flags/ContainerBuilder";
 import TemplatePath from "../flags/TemplatePath";
 
-const commandFlags: CommandFlagBase[] = [
+const commandFlags: Set<CommandFlagBase> = new Set<CommandFlagBase>([
     new ProjectPath(),
     new ContainerBuilder(),
     new ContainerRegistry(),
@@ -17,7 +17,7 @@ const commandFlags: CommandFlagBase[] = [
     new ContainerImageTag(),
     new TemplatePath(),
     new DisableSecrets()
-]
+]);
 
 function Init() {
     console.log('Initializing Aspir8');

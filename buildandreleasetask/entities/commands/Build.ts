@@ -12,7 +12,7 @@ import ContainerBuilder from "../flags/ContainerBuilder";
 import RuntimeIdentifier from "../flags/RuntimeIdentifer";
 import ComposeBuild from "../flags/ComposeBuild";
 
-const commandFlags: CommandFlagBase[] = [
+const commandFlags: Set<CommandFlagBase> = new Set<CommandFlagBase>([
     new AspireManifest(),
     new DisableSecrets(),
     new LaunchProfile(),
@@ -23,7 +23,7 @@ const commandFlags: CommandFlagBase[] = [
     new ContainerBuilder(),
     new RuntimeIdentifier(),
     new ComposeBuild()
-]
+]);
 
 function Build() {
     console.log('Building Aspir8 manifest');
