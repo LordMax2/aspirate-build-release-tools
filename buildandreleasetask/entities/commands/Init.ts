@@ -28,6 +28,10 @@ function Init() {
         command += `${flag.getCommandLineArgument()}`; 
     });
 
+    console.log("Executing the following command: ");
+    console.log(command);
+    console.log("--------------------------------");
+
     const workingDirectory: string | undefined = tl.getInput('workingDirectory', false);
 
     exec(command, { cwd: workingDirectory}, (error: Error | null, stdout: string, stderr: string) => {

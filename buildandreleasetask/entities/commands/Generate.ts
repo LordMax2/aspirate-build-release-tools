@@ -62,7 +62,9 @@ function Generate() {
         command += `${flag.getCommandLineArgument()}`; 
     });
 
+    console.log("Executing the following command: ");
     console.log(command);
+    console.log("--------------------------------");
     
     const workingDirectory: string | undefined = tl.getInput('workingDirectory', false);
      

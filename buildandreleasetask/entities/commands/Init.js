@@ -50,6 +50,9 @@ function Init() {
     commandFlags.forEach(flag => {
         command += `${flag.getCommandLineArgument()}`;
     });
+    console.log("Executing the following command: ");
+    console.log(command);
+    console.log("--------------------------------");
     const workingDirectory = tl.getInput('workingDirectory', false);
     (0, child_process_1.exec)(command, { cwd: workingDirectory }, (error, stdout, stderr) => {
         if (error) {

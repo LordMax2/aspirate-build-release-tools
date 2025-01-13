@@ -10,13 +10,23 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 3
+        "Patch": 4
     },
     "instanceNameFormat": "Echo $(command)",
     "groups": [
         {
+            "name": "ContainerRegistrySettings",
+            "displayName": "Container Registry Settings",
+            "isExpanded": true
+        },
+        {
             "name": "Advanced",
             "displayName": "Advanced Options",
+            "isExpanded": false
+        },
+        {
+            "name": "PrivateRegistrySettings",
+            "displayName": "Private Registry Settings",
             "isExpanded": false
         }
     ],
@@ -35,9 +45,89 @@
             "helpMarkDown": "Select the command to execute (e.g., 'Generate' or 'Build')."
         },
         {
+            "name": "containerRegistry",
+            "type": "string",
+            "label": "Container Registry",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "ContainerRegistrySettings",
+            "helpMarkDown": "Specify your container registry to publish the generated images to.",
+            "visibleRule": "command == init || command == build || command == generate"
+        },
+        {
+            "name": "containerRepositoryPrefix",
+            "type": "string",
+            "label": "Container Repository Prefix",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "ContainerRegistrySettings",
+            "helpMarkDown": "Specify the repository prefix.",
+            "visibleRule": "command == init || command == build || command == generate"
+        },
+        {
+            "name": "containerImageTag",
+            "type": "string",
+            "label": "Container Image Tag",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "ContainerRegistrySettings",
+            "helpMarkDown": "Specify the container image tag.",
+            "visibleRule": "command == init || command == build || command == generate"
+        },
+        {
+            "name": "privateRegistry",
+            "type": "boolean",
+            "label": "Private Registry",
+            "defaultValue": "false",
+            "required": false,
+            "groupName": "PrivateRegistrySettings",
+            "helpMarkDown": "Enables usage of a private registry, which will produce an image pull secret.",
+            "visibleRule": "command == generate"
+        },
+        {
+            "name": "privateRegistryUrl",
+            "type": "string",
+            "label": "Private Registry URL",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "PrivateRegistrySettings",
+            "helpMarkDown": "The URL for the private registry.",
+            "visibleRule": "privateRegistry == true"
+        },
+        {
+            "name": "privateRegistryUsername",
+            "type": "string",
+            "label": "Private Registry Username",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "PrivateRegistrySettings",
+            "helpMarkDown": "The username for the private registry. This is required if passing --private-registry.",
+            "visibleRule": "privateRegistry == true"
+        },
+        {
+            "name": "privateRegistryPassword",
+            "type": "string",
+            "label": "Private Registry Password",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "PrivateRegistrySettings",
+            "helpMarkDown": "The password for the private registry. This is required if passing --private-registry.",
+            "visibleRule": "privateRegistry == true"
+        },
+        {
+            "name": "privateRegistryEmail",
+            "type": "string",
+            "label": "Private Registry Email",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "PrivateRegistrySettings",
+            "helpMarkDown": "The email for the private registry. This is purely optional and will default to aspirate@aspirate.com.",
+            "visibleRule": "privateRegistry == true"
+        },
+        {
             "name": "containerBuilder",
             "type": "pickList",
-            "label": "Container builder",
+            "label": "Container Builder",
             "required": false,
             "options": {
                 "docker": "docker",
@@ -45,193 +135,7 @@
             },
             "groupName": "Advanced",
             "helpMarkDown": "Select the container builder, the default is docker",
-            "visibleRule": "command == init || command == build"
-        },
-        {
-            "name": "containerRegistry",
-            "type": "string",
-            "label": "Container registry",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Specify your container registry to publish the generated images to.",
-            "visibleRule": "command == init || command == build"
-        },
-        {
-            "name": "containerRepositoryPrefix",
-            "type": "string",
-            "label": "Container repository prefix",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Specify the repository prefix.",
-            "visibleRule": "command == init || command == build"
-        },
-        {
-            "name": "containerImageTag",
-            "type": "string",
-            "label": "Container image tag",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Specify the container image tag.",
-            "visibleRule": "command == init || command == build"
-        },
-        {
-            "name": "projectPath",
-            "type": "string",
-            "label": "Project path",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Specify the project path.",
-            "visibleRule": "command == init || command == build"
-        },
-        {
-            "name": "templatePath",
-            "type": "string",
-            "label": "Template path",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Specify the template path.",
-            "visibleRule": "command == init"
-        },
-        {
-            "name": "nonInteractive",
-            "type": "boolean",
-            "label": "Non interactive",
-            "defaultValue": "true",
-            "required": true,
-            "helpMarkDown": "Enable/disable the interactive mode, default is true for pipelines.",
-            "visibleRule": "command == generate || command == build || command == init"
-        },
-        {
-            "name": "workingDirectory",
-            "type": "string",
-            "label": "Working Directory",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "The working directory.",
-            "visibleRule": "command == generate || command == build"
-        },
-        {
-            "name": "includeDashboard",
-            "type": "boolean",
-            "label": "Include Dashboard",
-            "defaultValue": "true",
-            "required": true,
-            "helpMarkDown": "Enable/disable aspire dashboard, default is true for pipelines.",
-            "visibleRule": "command == generate || command == build"
-        },
-        {
-            "name": "disableSecrets",
-            "type": "boolean",
-            "label": "Disable Secrets",
-            "defaultValue": "true",
-            "required": true,
-            "helpMarkDown": "Enable/disable secrets, default is true for pipelines.",
-            "visibleRule": "command == generate || command == build"
-        },
-        {
-            "name": "outputFormat",
-            "type": "string",
-            "label": "Output Format",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Specify the output format (e.g., 'compose' or 'kubernetes').",
-            "groupName": "Advanced",
-            "visibleRule": "command == generate"
-        },
-        {
-            "name": "aspireManifest",
-            "type": "string",
-            "label": "Aspire manifest",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Specify the manifest file.",
-            "groupName": "Advanced",
-            "visibleRule": "command == build"
-        },
-        {
-            "name": "runtimeIdentifier",
-            "type": "string",
-            "label": "Runtime identifier",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Specify the runtime identifier of the project.",
-            "groupName": "Advanced",
-            "visibleRule": "command == build"
-        },
-        {
-            "name": "launchProfile",
-            "type": "string",
-            "label": "Launch profile",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Specify the launch profile.",
-            "groupName": "Advanced",
-            "visibleRule": "command == build"
-        },
-        {
-            "name": "composeBuild",
-            "type": "boolean",
-            "label": "Compose build",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Compose build.",
-            "groupName": "Advanced",
-            "visibleRule": "command == build"
-        },
-        {
-            "name": "outputPath",
-            "type": "string",
-            "label": "Output Path",
-            "defaultValue": "./aspirate-output",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "The path to the output directory. Defaults to ./aspirate-output.",
-            "visibleRule": "command == generate || command == build"
-        },
-        {
-            "name": "skipBuild",
-            "type": "boolean",
-            "label": "Skip Build",
-            "defaultValue": "false",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Skips build and push of containers.",
-            "visibleRule": "command == build"
-        },
-        {
-            "name": "disableState",
-            "type": "boolean",
-            "label": "Disable State",
-            "defaultValue": "false",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Disable aspirate state management.",
-            "visibleRule": "command == build || command == generate"
-        },
-        {
-            "name": "namespace",
-            "type": "string",
-            "label": "Namespace",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Generates a Kubernetes Namespace resource, and applies the namespace to all generated resources. Will be used at deployment time.",
-            "visibleRule": "command == generate"
-        },
-        {
-            "name": "skipFinal",
-            "type": "boolean",
-            "label": "Skip Final",
-            "defaultValue": "false",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "Skips the final generation of the kustomize manifest, which is the parent top-level file.",
-            "visibleRule": "command == build"
+            "visibleRule": "command == init || command == build || command == generate"
         },
         {
             "name": "imagePullPolicy",
@@ -248,64 +152,54 @@
             "visibleRule": "command == generate"
         },
         {
-            "name": "secretPassword",
+            "name": "outputFormat",
             "type": "string",
-            "label": "Secret Password",
+            "label": "Output Format",
             "defaultValue": "",
             "required": false,
             "groupName": "Advanced",
-            "helpMarkDown": "If using secrets or you have a secret file, specify the password to decrypt them.",
-            "visibleRule": "command == build || command == generate"
+            "helpMarkDown": "Specify the output format (e.g., 'compose' or 'kubernetes').",
+            "visibleRule": "command == generate"
         },
         {
-            "name": "privateRegistry",
+            "name": "outputPath",
+            "type": "string",
+            "label": "Output Path",
+            "defaultValue": "./aspirate-output",
+            "required": false,
+            "groupName": "Advanced",
+            "helpMarkDown": "The path to the output directory. Defaults to ./aspirate-output.",
+            "visibleRule": "command == generate"
+        },
+        {
+            "name": "nonInteractive",
             "type": "boolean",
-            "label": "Private Registry",
-            "defaultValue": "false",
-            "required": false,
+            "label": "Non Interactive",
+            "defaultValue": "true",
+            "required": true,
             "groupName": "Advanced",
-            "helpMarkDown": "Enables usage of a private registry, which will produce an image pull secret.",
-            "visibleRule": "command == build || command == generate"
+            "helpMarkDown": "Enable/disable the interactive mode, default is true for pipelines.",
+            "visibleRule": "command == generate || command == build || command == init"
         },
         {
-            "name": "privateRegistryUrl",
-            "type": "string",
-            "label": "Private Registry URL",
-            "defaultValue": "",
-            "required": false,
+            "name": "includeDashboard",
+            "type": "boolean",
+            "label": "Include Dashboard",
+            "defaultValue": "true",
+            "required": true,
             "groupName": "Advanced",
-            "helpMarkDown": "The URL for the private registry.",
-            "visibleRule": "privateRegistry == true"
+            "helpMarkDown": "Enable/disable aspire dashboard, default is true for pipelines.",
+            "visibleRule": "command == generate"
         },
         {
-            "name": "privateRegistryUsername",
-            "type": "string",
-            "label": "Private Registry Username",
-            "defaultValue": "",
-            "required": false,
+            "name": "disableSecrets",
+            "type": "boolean",
+            "label": "Disable Secrets",
+            "defaultValue": "true",
+            "required": true,
             "groupName": "Advanced",
-            "helpMarkDown": "The username for the private registry. This is required if passing --private-registry.",
-            "visibleRule": "privateRegistry == true"
-        },
-        {
-            "name": "privateRegistryPassword",
-            "type": "string",
-            "label": "Private Registry Password",
-            "defaultValue": "",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "The password for the private registry. This is required if passing --private-registry.",
-            "visibleRule": "privateRegistry == true"
-        },
-        {
-            "name": "privateRegistryEmail",
-            "type": "string",
-            "label": "Private Registry Email",
-            "defaultValue": "aspirate@aspirate.com",
-            "required": false,
-            "groupName": "Advanced",
-            "helpMarkDown": "The email for the private registry. This is purely optional and will default to aspirate@aspirate.com.",
-            "visibleRule": "privateRegistry == true"
+            "helpMarkDown": "Enable/disable secrets, default is true for pipelines.",
+            "visibleRule": "command == generate || command == build"
         }
     ],
     "execution": {
