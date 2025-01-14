@@ -1,4 +1,6 @@
+import Apply from "../commands/Apply";
 import Build from "../commands/Build";
+import Destroy from "../commands/Destroy";
 import DotnetVersionTest from "../commands/DotnetVersionTest";
 import Generate from "../commands/Generate";
 import Init from "../commands/Init";
@@ -14,6 +16,10 @@ function CommandFactory(command: string) {
             return Init;
         case "install":
             return Install;
+        case "apply":
+            return Apply;
+        case "destory":
+            return Destroy;
         case "dotnetversiontest":
             return DotnetVersionTest;
         default:

@@ -10,7 +10,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 4
+        "Patch": 5
     },
     "instanceNameFormat": "Echo $(command)",
     "groups": [
@@ -22,6 +22,11 @@
         {
             "name": "Advanced",
             "displayName": "Advanced Options",
+            "isExpanded": false
+        },
+        {
+            "name": "KubernetesOptions",
+            "displayName": "Kubernetes Options",
             "isExpanded": false
         },
         {
@@ -40,7 +45,9 @@
                 "install": "install",
                 "init": "init",
                 "generate": "generate",
-                "build": "build"
+                "build": "build",
+                "apply": "apply",
+                "destroy": "destroy"
             },
             "helpMarkDown": "Select the command to execute (e.g., 'Generate' or 'Build')."
         },
@@ -125,6 +132,16 @@
             "visibleRule": "privateRegistry == true"
         },
         {
+            "name": "workingDirectory",
+            "type": "string",
+            "label": "Working directory",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "Advanced",
+            "helpMarkDown": "Specify the working directory.",
+            "visibleRule": "command == generate || command == build"
+        },
+        {
             "name": "containerBuilder",
             "type": "pickList",
             "label": "Container Builder",
@@ -136,20 +153,6 @@
             "groupName": "Advanced",
             "helpMarkDown": "Select the container builder, the default is docker",
             "visibleRule": "command == init || command == build || command == generate"
-        },
-        {
-            "name": "imagePullPolicy",
-            "type": "pickList",
-            "label": "Image Pull Policy",
-            "required": false,
-            "options": {
-                "Always": "Always",
-                "IfNotPresent": "IfNotPresent",
-                "Never": "Never"
-            },
-            "groupName": "Advanced",
-            "helpMarkDown": "The image pull policy to use for all containers in generated manifests. For your local docker desktop cluster, use IfNotPresent.",
-            "visibleRule": "command == generate"
         },
         {
             "name": "outputFormat",
@@ -200,6 +203,40 @@
             "groupName": "Advanced",
             "helpMarkDown": "Enable/disable secrets, default is true for pipelines.",
             "visibleRule": "command == generate || command == build"
+        },
+        {
+            "name": "imagePullPolicy",
+            "type": "pickList",
+            "label": "Image Pull Policy",
+            "required": false,
+            "options": {
+                "Always": "Always",
+                "IfNotPresent": "IfNotPresent",
+                "Never": "Never"
+            },
+            "groupName": "KubernetesOptions",
+            "helpMarkDown": "The image pull policy to use for all containers in generated manifests. For your local docker desktop cluster, use IfNotPresent.",
+            "visibleRule": "command == generate"
+        },
+        {
+            "name": "namespace",
+            "type": "string",
+            "label": "Namespace",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "KubernetesOptions",
+            "helpMarkDown": "Generates a Kubernetes Namespace resource, and applies the namespace to all generated resources. Will be used at deployment time.",
+            "visibleRule": "command == generate"
+        },
+        {
+            "name": "skipFinal",
+            "type": "boolean",
+            "label": "Skip final",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "KubernetesOptions",
+            "helpMarkDown": "Skips The final generation of the kustomize manifest, which is the parent top level file.",
+            "visibleRule": "command == generate"
         }
     ],
     "execution": {
