@@ -2,3 +2,4 @@ node_modules/
 *.vsix
 .taskkey
 aspirate-state.json
+*.js
