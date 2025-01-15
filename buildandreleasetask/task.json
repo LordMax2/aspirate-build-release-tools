@@ -10,7 +10,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 5
+        "Patch": 7
     },
     "instanceNameFormat": "Echo $(command)",
     "groups": [
@@ -202,7 +202,7 @@
             "required": true,
             "groupName": "Advanced",
             "helpMarkDown": "Enable/disable secrets, default is true for pipelines.",
-            "visibleRule": "command == generate || command == build"
+            "visibleRule": "command == generate || command == build || command == apply || command == destroy"
         },
         {
             "name": "imagePullPolicy",
@@ -237,6 +237,36 @@
             "groupName": "KubernetesOptions",
             "helpMarkDown": "Skips The final generation of the kustomize manifest, which is the parent top level file.",
             "visibleRule": "command == generate"
+        },
+        {
+            "name": "inputPath",
+            "type": "string",
+            "label": "Input path",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "KubernetesOptions",
+            "helpMarkDown": "The path for the kustomize manifests directory. Defaults to ./aspirate-output.",
+            "visibleRule": "command == apply || command == destroy"
+        },
+        {
+            "name": "kubeContext",
+            "type": "string",
+            "label": "Kube context",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "KubernetesOptions",
+            "helpMarkDown": "The name of the kubernetes context within your kubeconfig to apply / deploy manifests to.",
+            "visibleRule": "command == apply || command == destroy"
+        },
+        {
+            "name": "rollingRestart",
+            "type": "boolean",
+            "label": "Rolling restart",
+            "defaultValue": "false",
+            "required": false,
+            "groupName": "KubernetesOptions",
+            "helpMarkDown": "Perform a rollout restart of deployments directly after applying the manifests. Defaults to false.",
+            "visibleRule": "command == apply"
         }
     ],
     "execution": {
