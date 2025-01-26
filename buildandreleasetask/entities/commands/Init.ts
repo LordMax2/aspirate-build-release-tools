@@ -1,6 +1,6 @@
 import * as tl from "azure-pipelines-task-lib/task";
 import { exec } from 'child_process';
-import DisableSecrets from '../flags/DisableSecrets'
+import DisableSecrets from '../flags/DisableSecrets';
 import CommandFlagBase from "../flags/CommandFlagBase";
 import ProjectPath from "../flags/ProjectPath";
 import ContainerImageTag from "../flags/ContainerImageTag";
@@ -21,11 +21,12 @@ const commandFlags: Set<CommandFlagBase> = new Set<CommandFlagBase>([
 
 function Init() {
     console.log('Initializing Aspir8');
-    
+
     let command: string = "aspirate init --non-interactive";
 
     commandFlags.forEach(flag => {
-        command += `${flag.getCommandLineArgument()}`; 
+        console.log(`Adding flag: ${flag.getCommandLineArgument()}`);
+        command += `${flag.getCommandLineArgument()}`;
     });
 
     console.log("Executing the following command: ");
@@ -34,16 +35,22 @@ function Init() {
 
     const workingDirectory: string | undefined = tl.getInput('workingDirectory', false);
 
-    exec(command, { cwd: workingDirectory}, (error: Error | null, stdout: string, stderr: string) => {
+    exec(command, { 
+        cwd: workingDirectory, 
+        env: { 
+            ...process.env, 
+            PATH: `${process.env.PATH}:${process.env.HOME}/.dotnet/tools` 
+        }
+    }, (error: Error | null, stdout: string, stderr: string) => {
         if (error) {
-            console.error(`exec error: ${error}`);
+            console.error(`exec error: ${error.message}`);
             return;
         }
         if (stderr) {
             console.error(`stderr: ${stderr}`);
             return;
         }
-        console.log(`Aspirate installed successfully: ${stdout}`);
+        console.log(`Aspirate initialized successfully: ${stdout}`);
     });
 }
 
