@@ -1,16 +1,8 @@
-import CommandFlagBase from './CommandFlagBase'
+import BooleanCommandFlagBase from './BooleanCommandFlagBase'
 
-class DisableSecrets extends CommandFlagBase {
+class DisableSecrets extends BooleanCommandFlagBase {
     constructor() {
         super("disableSecrets", "--disable-secrets")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

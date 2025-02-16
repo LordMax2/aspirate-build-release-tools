@@ -1,16 +1,8 @@
-import CommandFlagBase from "./CommandFlagBase";
+import BooleanCommandFlagBase from "./BooleanCommandFlagBase";
 
-class PrivateRegistry extends CommandFlagBase {
+class PrivateRegistry extends BooleanCommandFlagBase {
     constructor() {
         super("privateRegistry", "--private-registry")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

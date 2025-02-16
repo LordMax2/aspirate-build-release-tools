@@ -10,7 +10,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 8
+        "Patch": 9
     },
     "instanceNameFormat": "Echo $(command)",
     "groups": [
@@ -226,6 +226,16 @@
             "required": false,
             "groupName": "KubernetesOptions",
             "helpMarkDown": "Generates a Kubernetes Namespace resource, and applies the namespace to all generated resources. Will be used at deployment time.",
+            "visibleRule": "command == generate"
+        },
+        {
+            "name": "parameters",
+            "type": "string",
+            "label": "Parameters",
+            "defaultValue": "",
+            "required": false,
+            "groupName": "Advanced",
+            "helpMarkDown": "Overrides auto-generated values for input parameters. Format here is comma seperated key value pair, example: postgres-password=postgres,value2=value",
             "visibleRule": "command == generate"
         },
         {

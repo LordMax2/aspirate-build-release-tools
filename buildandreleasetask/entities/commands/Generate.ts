@@ -25,6 +25,7 @@ import PrivateRegistryUsername from "../flags/PrivateRegistryUsername";
 import PrivateRegistryPassword from "../flags/PrivateRegistryPassword";
 import PrivateRegistryEmail from "../flags/PrivateRegistryEmail";
 import IncludeDashboard from "../flags/IncludeDashboard";
+import Parameters from "../flags/Parameters";
 
 const commandFlags: Set<CommandFlagBase> = new Set<CommandFlagBase>([
     new ProjectPath(),
@@ -50,7 +51,8 @@ const commandFlags: Set<CommandFlagBase> = new Set<CommandFlagBase>([
     new PrivateRegistryEmail(),
     new IncludeDashboard(),
     new ComposeBuild(),
-    new LaunchProfile()
+    new LaunchProfile(),
+    new Parameters()
 ]);
 
 function Generate() {

@@ -1,16 +1,8 @@
-import CommandFlagBase from './CommandFlagBase'
+import BooleanCommandFlagBase from './BooleanCommandFlagBase'
 
-class SkipFinal extends CommandFlagBase {
+class SkipFinal extends BooleanCommandFlagBase {
     constructor() {
         super("skipFInal", "--skip-final")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

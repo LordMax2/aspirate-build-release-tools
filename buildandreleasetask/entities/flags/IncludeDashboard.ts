@@ -1,16 +1,8 @@
-import CommandFlagBase from './CommandFlagBase'
+import BooleanCommandFlagBase from './BooleanCommandFlagBase'
 
-class IncludeDashboard extends CommandFlagBase {
+class IncludeDashboard extends BooleanCommandFlagBase {
     constructor() {
         super("includeDashboard", "--include-dashboard")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

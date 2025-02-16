@@ -1,16 +1,8 @@
-import CommandFlagBase from './CommandFlagBase'
+import BooleanCommandFlagBase from './BooleanCommandFlagBase'
 
-class DisableState extends CommandFlagBase {
+class DisableState extends BooleanCommandFlagBase {
     constructor() {
         super("disableState", "--disable-state")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

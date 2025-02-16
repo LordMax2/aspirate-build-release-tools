@@ -1,16 +1,8 @@
-import CommandFlagBase from './CommandFlagBase'
+import BooleanCommandFlagBase from './BooleanCommandFlagBase'
 
-class SkipBuild extends CommandFlagBase {
+class SkipBuild extends BooleanCommandFlagBase {
     constructor() {
         super("skipBuild", "--skip-build")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

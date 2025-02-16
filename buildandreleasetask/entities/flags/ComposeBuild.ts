@@ -1,16 +1,7 @@
-import CommandFlagBase from './CommandFlagBase'
-
-class ComposeBuild extends CommandFlagBase {
+import BooleanCommandFlagBase from './BooleanCommandFlagBase';
+class ComposeBuild extends BooleanCommandFlagBase {
     constructor() {
         super("composeBuild", "--compose-build")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 

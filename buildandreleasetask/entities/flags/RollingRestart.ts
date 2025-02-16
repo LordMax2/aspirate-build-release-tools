@@ -1,16 +1,8 @@
-import CommandFlagBase from './CommandFlagBase'
+import BooleanCommandFlagBase from './BooleanCommandFlagBase'
 
-class RollingRestart extends CommandFlagBase {
+class RollingRestart extends BooleanCommandFlagBase {
     constructor() {
         super("rollingRestart", "--rolling-restart")
-    }
-
-    getCommandLineArgument(): string {
-        if(this.getValue() === "true") {
-            return ` ${this.commandLineArgumentName}`;
-        }
-
-        return "";
     }
 }
 
