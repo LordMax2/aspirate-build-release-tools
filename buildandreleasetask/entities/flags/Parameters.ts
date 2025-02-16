@@ -1,8 +1,8 @@
-import CommandFlagBase from "./CommandFlagBase";
+import CommaSeperatedArrayCommandFlagBase from "./CommaSeperatedArrayCommandFlagBase";
 
-class Parameters extends CommandFlagBase {
+class Parameters extends CommaSeperatedArrayCommandFlagBase {
     constructor() {
-        super("parameters", "--paramter")
+        super("parameters", "--parameter")
     }
 }
 

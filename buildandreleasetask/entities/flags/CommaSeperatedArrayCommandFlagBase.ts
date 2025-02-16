@@ -10,7 +10,7 @@ class CommaSeperatedArrayCommandFlagBase extends CommandFlagBase {
             let commandString: string = "";
 
             this.getValue().toString().split(",").forEach((keyValuePair: any) => {
-                commandString += `${this.commandLineArgumentName}=${keyValuePair}`;
+                commandString += ` ${this.commandLineArgumentName}=${keyValuePair}`;
             });
 
             return commandString;
